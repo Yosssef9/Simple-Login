@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 90vh;
+        }
+        .cricle {
+            width: 100px;
+            height: 100px;
+            border: 1px solid black;
+            margin: 10px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div style="background-color: red;" class="cricle"></div>
+    <div style="background-color: blue;" class="cricle"></div>
+    <div style="background-color: yellow;" class="cricle"></div>
+    <div style="background-color: green;" class="cricle"></div>
+    <div style="background-color: pink;" class="cricle"></div>
+    
+    <script>
+ let accounts = loadTasks();
+ let lastAccount = localStorage.getItem('lastAccount');
+
+ let account = accounts.find(acc => acc.user === lastAccount);
+        // Load accounts from localStorage
+                        let body =    document.querySelector("body")
+
+        function loadTasks() {
+            return JSON.parse(localStorage.getItem('accounts')) || [];
+        }
+
+        // Save accounts to localStorage
+        function saveTasks(accounts) {
+            localStorage.setItem('accounts', JSON.stringify(accounts));
+        }
+
+        // Function to update color for a specific user
+        function updateColor(userName, newColor) {
+            let accounts = loadTasks();
+            let account = accounts.find(acc => acc.user === userName);
+            if (account) {
+                account.color = newColor;
+                body.style.backgroundColor = account.color 
+                saveTasks(accounts); // Save the updated accounts array to localStorage
+            } else {
+                console.log('User not found');
+            }
+        }
+
+        let circles = document.querySelectorAll(".cricle");
+        circles.forEach(circle => {
+            circle.addEventListener("click", function() {
+                let newColor = circle.style.backgroundColor;
+                let lastAccount = localStorage.getItem('lastAccount');
+                if (lastAccount) {
+                    updateColor(lastAccount, newColor);
+
+                } else {
+                    console.log('No user selected');
+                }
+            });
+        });
+        body.style.backgroundColor = account.color 
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <style>
+        *{
+            box-sizing: border-box;
+        }
+        body{
+            height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f8f9fa;
+        }
+        .container{
+            padding: 20px;
+        }
+        .form{
+            background-color: white;
+    padding: 20px;
+    border: 1px solid #e7dddd;
+    border-radius: 10px;
+        }
+        .welcome{
+            font-size: 25px;
+        }
+        .userName{
+            display: flex;
+            flex-direction: column;
+        }
+        .userName span{
+            margin: 10px 0;
+    font-size: 20px;
+        }
+        .userName input{
+            padding: 10px;
+            margin: 10px 0;
+        }
+        .Password{
+            display: flex;
+            flex-direction: column;
+        }
+        .Password span{
+            margin: 10px 0;
+            font-size: 20px;
+        }
+        .Password input{
+            padding: 10px;
+            margin: 10px 0;
+        }
+        button{
+            margin: 10px 0;
+    width: 300px;
+    height: 40px;
+    color: white;
+    border: none;
+    cursor: pointer;
+    background-color: #467fcf;
+    border-color: #467fcf;
+        }
+        p{
+            text-align: center;
+        }
+        p span{
+
+        }
+        p span a{
+            text-decoration: none;
+            color: #467fcf;
+        }
+    </style>
+   <div class="container">
+    <div class="form">
+        <span class="welcome">Create new account</span>
+        <div class="userName">
+            <span>user name</span>
+            <input id="userName" type="text">
+        </div>
+        <div class="Password">
+            <span >Password</span>
+            <input id="Password" type="password">
+        </div>
+        <button>Create Account</button>
+    </div>
+    <p>Already have account?  <span><a href="index.html">Sign in</a> </span></p>
+    <p id="nameIsUsed" style=" display: none;" ></p>
+   </div>
+    <script>
+                       
+           let btn =  document.querySelector("button")
+           let nameIsUsed =  document.querySelector("#nameIsUsed")
+
+           function loadTasks() {
+                  const accounts = JSON.parse(localStorage.getItem('accounts')) || [];
+                    return accounts;
+             }
+           btn.addEventListener("click",function(){
+            let userNameValue = document.getElementById("userName").value
+            let PasswordValue =  document.getElementById("Password").value
+            if (userNameValue !== "" && PasswordValue !== "") {
+                // Retrieve existing accounts from localStorage
+                let accounts = JSON.parse(localStorage.getItem("accounts")) || {};
+
+                accounts = loadTasks()
+                let userExists = false
+                accounts.forEach(account => {
+                      if(account.user == userNameValue){
+                        userExists =true
+                      }  
+                });
+                if(userExists){
+                    console.log(`the user name is already used`)
+                    nameIsUsed.style.display = "block"
+                    nameIsUsed.style.color = "red"
+
+                    nameIsUsed.textContent ="the user name is already used"
+                }else{
+                    nameIsUsed.style.display = "block"
+                    nameIsUsed.textContent ="the account has been created"
+                    nameIsUsed.style.color = "green"
+                    
+                    
+                    let newAccount = {
+                    user: userNameValue,
+                    password: PasswordValue,
+                    color : null
+                };
+                    accounts.push(newAccount)
+                    setTimeout(() => {  
+                        window.location.href = "index.html"
+                    }, 1000);
+                }
+                
+                console.log(accounts)
+                // Store the updated accounts object back in localStorage
+                localStorage.setItem("accounts", JSON.stringify(accounts));
+          
+           
+           }else{
+            nameIsUsed.style.display = "block"
+            nameIsUsed.style.color = "red"
+
+                    nameIsUsed.textContent ="user name or pass cannot be empty"
+           }
+        })
+    </script>
+    
+</body>
+</html>
